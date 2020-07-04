@@ -1,0 +1,12 @@
+{
+  "name": "buybox",
+  "version": "1.0.0",
+  "description": "Virtual implementation of a [Vending Machine](https://en.wikipedia.org/wiki/Vending_machine)",
+  "main": "gulpfile.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-shell": "^0.8.0"
+  }
+}

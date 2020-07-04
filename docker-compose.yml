@@ -1,0 +1,12 @@
+version: '3.1'
+services: 
+    db:
+        network_mode: host
+        image: mariadb
+        ports: 
+            - "3306:3306"
+        environment: 
+            - MYSQL_DATABASE=buybox
+            - MYSQL_USER=buybox
+            - MYSQL_PASSWORD=bbp4ssw0rd
+            - MYSQL_ROOT_PASSWORD=bbp4ssw0rd-root
