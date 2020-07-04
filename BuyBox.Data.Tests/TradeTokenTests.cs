@@ -1,10 +1,10 @@
-using System.Linq;
+﻿using System.Linq;
 using NUnit.Framework;
 
 namespace BuyBox.Data.Tests
 {
     [TestFixture]
-    public class SellableItemTests
+    public class TradeTokenTests
     {
         private BuyBoxDbContext _dbContext;
         
@@ -15,9 +15,9 @@ namespace BuyBox.Data.Tests
         }
 
         [Test]
-        public void SellableItemsAreAvailable()
+        public void TradeTokensAvailable()
         {
-            var list = _dbContext.SellableItems.ToList();
+            var list = _dbContext.TradeTokens.ToList();
             Assert.IsTrue(list.Count > 0);
         }
     }

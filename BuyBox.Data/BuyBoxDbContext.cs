@@ -23,6 +23,7 @@ namespace BuyBox.Data
         public DbSet<StockHistory> StockHistories { get; set; }
         public DbSet<LedgerEntry> LedgerEntries { get; set; }
         public DbSet<SellableItem> SellableItems { get; set; }
+        public DbSet<TradeToken> TradeTokens { get; set; }
         
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +33,7 @@ namespace BuyBox.Data
             modelBuilder.Entity<StockHistory>().ToTable("StockHistory");
             modelBuilder.Entity<LedgerEntry>().ToTable("LedgerEntry");
             modelBuilder.Entity<SellableItem>().HasNoKey().ToView("SellableItem");
+            modelBuilder.Entity<TradeToken>().HasNoKey().ToView("TradeToken");
         }
     }
 }
