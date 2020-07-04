@@ -27,24 +27,23 @@ CREATE TABLE `Token` (
 
 CREATE TABLE `Price` (
     `Id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `Product_Id` INT(11) NOT NULL REFERENCES `Product` (`Id`),
+    `ProductId` INT(11) NOT NULL REFERENCES `Product` (`Id`),
     `Value` DECIMAL(5, 2) NOT NULL
 );
 
 CREATE TABLE `StockEntry` (
     `Id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `Product_Id` INT(11) NOT NULL REFERENCES `Product` (`Id`),
+    `ProductId` INT(11) NOT NULL REFERENCES `Product` (`Id`),
     `Operation` VARCHAR(1) NOT NULL,
-    `When` DATETIME NOT NULL,
+    `Session` VARCHAR(36),
     `Quantity` INT(11) NOT NULL
 );
 
 CREATE TABLE `LedgerEntry` (
     `Id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `Transaction` DATETIME NOT NULL,
+    `Session` VARCHAR(36),
     `Operation` VARCHAR(1),
-    `When` DATETIME NOT NULL,
-    `Token_Id` INT(11) NOT NULL REFERENCES `Token` (`Id`),
+    `TokenId` INT(11) NOT NULL REFERENCES `Token` (`Id`),
     `Quantity` INT(11) NOT NULL
 );
 
@@ -63,57 +62,57 @@ INSERT INTO `Price` VALUES (default, 2, 1.80);
 INSERT INTO `Price` VALUES (default, 3, 1.80);
 INSERT INTO `Price` VALUES (default, 4, 1.80);
 
-INSERT INTO `StockEntry` VALUES (default, 1, 'I', NOW(), 10);
-INSERT INTO `StockEntry` VALUES (default, 2, 'I', NOW(), 20);
-INSERT INTO `StockEntry` VALUES (default, 3, 'I', NOW(), 20);
-INSERT INTO `StockEntry` VALUES (default, 4, 'I', NOW(), 15);
+INSERT INTO `StockEntry` VALUES (default, 1, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 10);
+INSERT INTO `StockEntry` VALUES (default, 2, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 20);
+INSERT INTO `StockEntry` VALUES (default, 3, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 20);
+INSERT INTO `StockEntry` VALUES (default, 4, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 15);
 
 
-INSERT INTO `LedgerEntry` VALUES(default, NOW(), 'I', NOW(), 1, 100);
-INSERT INTO `LedgerEntry` VALUES(default, NOW(), 'I', NOW(), 2, 100);
-INSERT INTO `LedgerEntry` VALUES(default, NOW(), 'I', NOW(), 3, 100);
-INSERT INTO `LedgerEntry` VALUES(default, NOW(), 'I', NOW(), 4, 100);
+INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 1, 100);
+INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 2, 100);
+INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 3, 100);
+INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 4, 100);
 
 CREATE VIEW _InOutStock AS
-     select Product_Id
+     select ProductId
       , sum(Quantity) Quantity
      from StockEntry
      where Operation = 'I'
-     group by Product_Id
+     group by ProductId
 
      union all
 
-     select Product_Id
+     select ProductId
       , (-1) * sum(Quantity) Quantity
      from StockEntry
      where Operation = 'O'
-     group by Product_Id;
+     group by ProductId;
 
 CREATE VIEW SellableItem AS
     select
          p.Id Id
         ,p.Name Name
-        ,pr.Value Value
+        ,pr.Value Price
         ,sum(sub.Quantity) Quantity
     from _InOutStock sub
-    join Product p on sub.Product_Id = p.Id
-    join Price pr on pr.Product_Id = p.Id
+    join Product p on sub.ProductId = p.Id
+    join Price pr on pr.ProductId = p.Id
     group by p.Id, p.Name, pr.Value;
 
 CREATE VIEW _InOutLedger AS
-         select Token_Id
+         select TokenId
       , sum(Quantity) Quantity
      from LedgerEntry
      where Operation = 'I'
-     group by Token_Id
+     group by TokenId
 
      union all
 
-     select Token_Id
+     select TokenId
       , (-1) * sum(Quantity) Quantity
      from LedgerEntry
      where Operation = 'O'
-     group by Token_Id;
+     group by TokenId;
 
 CREATE VIEW TradeToken as
     select
@@ -122,7 +121,7 @@ CREATE VIEW TradeToken as
         ,p.Value Value
         ,sum(sub.Quantity) Quantity
     from _InOutLedger sub
-    join Token p on sub.Token_Id = p.Id
+    join Token p on sub.TokenId = p.Id
     group by p.Id, p.Code, p.Value;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -2,12 +2,18 @@
 using BuyBox.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
 
-namespace BuyBox.Data
+namespace BuyBox.Data.Impl
 {
     public class BuyBoxDbContext : DbContext
     {
-        private string _connectionString;
+        private readonly string _connectionString;
+
+        public BuyBoxDbContext(IConfiguration configuration)
+        {
+            this._connectionString = configuration.GetConnectionString("BuyBoxDbContext");
+        }
         public BuyBoxDbContext(string connectionString)
         {
             this._connectionString = connectionString;

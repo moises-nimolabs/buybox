@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BuyBox.Data.Impl;
 using NUnit.Framework;
 
 namespace BuyBox.Data.Tests

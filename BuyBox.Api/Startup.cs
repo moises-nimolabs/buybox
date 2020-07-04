@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BuyBox.Data;
+using BuyBox.Data.Impl;
+using BuyBox.Data.Repositories;
+using BuyBox.Data.Repositories.Impl;
+using BuyBox.Domain.Services;
+using BuyBox.Domain.Services.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +32,21 @@ namespace BuyBox.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddTransient<ISellableItemService, SellableItemService>();
+            services.AddTransient<ISellableItemRepository, SellableItemRepository>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<ILedgerRepository, LedgerRepository>();
+            services.AddTransient<BuyBoxDbContext>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo()
@@ -53,6 +74,8 @@ namespace BuyBox.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "BuyBox Api");
                 c.RoutePrefix = "swagger";
             });
+
+            app.UseSession();
 
             app.UseHttpsRedirection();
 
