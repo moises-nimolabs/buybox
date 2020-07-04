@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Entities" />
+      <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.20" />
     </ItemGroup>
 
 </Project>
