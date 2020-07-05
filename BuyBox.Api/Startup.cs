@@ -1,34 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using BuyBox.Data;
-using BuyBox.Data.Impl;
-using BuyBox.Data.Repositories;
-using BuyBox.Data.Repositories.Impl;
-using BuyBox.Domain.Services;
-using BuyBox.Domain.Services.Impl;
+using BuyBox.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace BuyBox.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -41,15 +24,13 @@ namespace BuyBox.Api
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddTransient<ISellableItemService, SellableItemService>();
-            services.AddTransient<ISellableItemRepository, SellableItemRepository>();
-            services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<ILedgerRepository, LedgerRepository>();
-            services.AddTransient<BuyBoxDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+            services.AddDataLayer();
+            services.AddDomainLayer();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo()
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "BuyBox Api",
@@ -60,12 +41,10 @@ namespace BuyBox.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseSwagger();
 

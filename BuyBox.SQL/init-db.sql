@@ -2,6 +2,7 @@ USE `buybox`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS `Session`;
 DROP TABLE IF EXISTS `Product`;
 DROP TABLE IF EXISTS `Token`;
 DROP TABLE IF EXISTS `Price`;
@@ -12,7 +13,15 @@ DROP VIEW IF EXISTS _InOutStock;
 DROP VIEW IF EXISTS SellableItem;
 
 DROP VIEW IF EXISTS _InOutLedger;
-DROP VIEW IF EXISTS TradeToken;
+DROP VIEW IF EXISTS ExchangeToken;
+
+DROP PROCEDURE IF EXISTS InserExchangeTokens;
+
+CREATE TABLE `Session` (
+    `Id` VARCHAR(36) NOT NULL PRIMARY KEY,
+    `Started` datetime NOT NULL ,
+    `Finished` datetime
+);
 
 CREATE TABLE `Product` (
     `Id` INT(11) NOT NULL PRIMARY KEY,
@@ -20,9 +29,8 @@ CREATE TABLE `Product` (
 );
 
 CREATE TABLE `Token` (
-    `Id` INT(11) NOT NULL PRIMARY KEY,
-    `Code` VARCHAR(4) NOT NULL COLLATE utf8mb4_unicode_ci NOT NULL,
-    `Value` DECIMAL(5,2) NOT NULL
+    `Id` VARCHAR(4) NOT NULL COLLATE utf8mb4_unicode_ci NOT NULL PRIMARY KEY,
+    `Value` INT NOT NULL
 );
 
 CREATE TABLE `Price` (
@@ -41,10 +49,11 @@ CREATE TABLE `StockEntry` (
 
 CREATE TABLE `LedgerEntry` (
     `Id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `Session` VARCHAR(36),
+    `SessionId` VARCHAR(36) REFERENCES `Session`,
+    `RelatedId` INT(11) REFERENCES `LedgerEntry`,
     `Operation` VARCHAR(1),
-    `TokenId` INT(11) NOT NULL REFERENCES `Token` (`Id`),
-    `Quantity` INT(11) NOT NULL
+    `TokenId` VARCHAR(4) NOT NULL REFERENCES `Token` (`Id`)
+
 );
 
 INSERT INTO `Product` VALUES (1, 'Tea');
@@ -52,15 +61,15 @@ INSERT INTO `Product` VALUES (2, 'Expresso');
 INSERT INTO `Product` VALUES (3, 'Juice');
 INSERT INTO `Product` VALUES (4, 'Chicken Soup');
 
-INSERT INTO `Token` VALUES (1, 'D100', 1.00);
-INSERT INTO `Token` VALUES (2, 'D050', 0.50);
-INSERT INTO `Token` VALUES (3, 'D020', 0.20);
-INSERT INTO `Token` VALUES (4, 'D010', 0.10);
+INSERT INTO `Token` VALUES ('T100', 100);
+INSERT INTO `Token` VALUES ('T050', 50);
+INSERT INTO `Token` VALUES ('T020', 20);
+INSERT INTO `Token` VALUES ('T010', 10);
 
-INSERT INTO `Price` VALUES (default, 1, 1.30);
-INSERT INTO `Price` VALUES (default, 2, 1.80);
-INSERT INTO `Price` VALUES (default, 3, 1.80);
-INSERT INTO `Price` VALUES (default, 4, 1.80);
+INSERT INTO `Price` VALUES (default, 1, 130);
+INSERT INTO `Price` VALUES (default, 2, 180);
+INSERT INTO `Price` VALUES (default, 3, 180);
+INSERT INTO `Price` VALUES (default, 4, 180);
 
 INSERT INTO `StockEntry` VALUES (default, 1, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 10);
 INSERT INTO `StockEntry` VALUES (default, 2, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 20);
@@ -68,10 +77,21 @@ INSERT INTO `StockEntry` VALUES (default, 3, 'I', '3bc45266-3f49-9971-9c0d-d39b7
 INSERT INTO `StockEntry` VALUES (default, 4, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 15);
 
 
-INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 1, 100);
-INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 2, 100);
-INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 3, 100);
-INSERT INTO `LedgerEntry` VALUES(default, '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 'I', 4, 100);
+DELIMITER
+//
+CREATE PROCEDURE InserExchangeTokens(p1 INT)
+  BEGIN
+    SET @x = 0;
+    REPEAT SET @x = @x + 1;
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T010');
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T020');
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T050');
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T100');
+    UNTIL @x > p1 END REPEAT;
+  END
+//
+
+CALL InserExchangeTokens(100);
 
 CREATE VIEW _InOutStock AS
      select ProductId
@@ -100,8 +120,8 @@ CREATE VIEW SellableItem AS
     group by p.Id, p.Name, pr.Value;
 
 CREATE VIEW _InOutLedger AS
-         select TokenId
-      , sum(Quantity) Quantity
+     select TokenId
+      , sum(1) Quantity
      from LedgerEntry
      where Operation = 'I'
      group by TokenId
@@ -109,19 +129,18 @@ CREATE VIEW _InOutLedger AS
      union all
 
      select TokenId
-      , (-1) * sum(Quantity) Quantity
+      , (-1) * sum(1) Quantity
      from LedgerEntry
      where Operation = 'O'
      group by TokenId;
 
-CREATE VIEW TradeToken as
+CREATE VIEW ExchangeToken as
     select
-         p.Id Id
-        ,p.Code Code
-        ,p.Value Value
-        ,sum(sub.Quantity) Quantity
+          p.Id Id
+        , p.Value Value
+        , sum(sub.Quantity) Quantity
     from _InOutLedger sub
     join Token p on sub.TokenId = p.Id
-    group by p.Id, p.Code, p.Value;
+    group by p.Id, p.Value;
 
 SET FOREIGN_KEY_CHECKS = 1;

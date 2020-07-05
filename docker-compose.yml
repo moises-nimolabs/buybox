@@ -2,7 +2,7 @@ version: '3.1'
 services: 
     db:
         container_name: buybox-db
-        image: mariadb:10.1
+        image: mariadb:10.3
         volumes: 
             - ./BuyBox.SQL/:/sql/
         ports: 

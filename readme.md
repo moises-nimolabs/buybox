@@ -33,4 +33,8 @@ Customer should be able to buy a product:
 ### Considerations
 
 * If the product price is less than the deposited amount, Vending machine should show a message “Thank you” and return the difference between the inserted amount and the price using the smallest number of coins possible.  
-* If the product price is higher than the amount inserted, Vending machine should show a message “Insufficient amount” The amount and type of coins returned should be shown by the UI.
+* If the product price is higher than the amount inserted, Vending machine should show the following: 
+1. A message “Insufficient amount”  
+2. The amount 
+3. The type of coins returned should be shown by the UI   
+* `This wasn't clear about what should be returned, in this case I decided to return the inserted tokens, since it's the choice of the user the types of tokens he wants to include in the machine.`

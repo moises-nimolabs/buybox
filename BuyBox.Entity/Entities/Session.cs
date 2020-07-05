@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace BuyBox.Domain.Models
+namespace BuyBox.Data.Entities
 {
-    public class SessionModel
+    public class Session
     {
         public string Id { get; set; }
         public DateTime Started { get; set; }

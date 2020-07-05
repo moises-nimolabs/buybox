@@ -1,34 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BuyBox.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace BuyBox.Api.Controllers
 {
     /// <summary>
-    /// Exposes the Home Api
+    ///     Exposes the Home Api to the Swagger Service descriptor
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("/")]
     public class HomeController : ControllerBase
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
+        /// <summary>
+        ///     Performs a redirect to the swagger documentation
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public HomeResponseModel Get()
+        public RedirectResult Get()
         {
-            return new HomeResponseModel()
-            {
-                Message = "BuyBox Home Api"
-            };
+            return RedirectPermanent("/swagger/");
         }
     }
 }

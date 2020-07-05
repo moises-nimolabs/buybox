@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BuyBox.Domain.Models;
 
 namespace BuyBox.Domain.Services
 {
     public interface ISellableItemService
     {
-        Task<IEnumerable<SellableItemModel>> List();
+        Task<SellableItemModelCollection> GetCollection();
+        Task<PurchaseModel> OrderItem(int id, string sessionId);
     }
 }

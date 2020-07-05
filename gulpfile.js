@@ -46,6 +46,8 @@ function publish() {
 exports.startDatabase = startDatabase;
 exports.resetDatabase = resetDatabase;
 exports.logsDatabase = logsDatabase;
+exports.disposeContainers = disposeContainers;
+
 
 exports.clean = clean;
 exports.build = build;
