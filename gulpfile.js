@@ -40,7 +40,7 @@ function test() {
 
 function publish() {
     return gulp.src(__filename)
-        .pipe(shell([`dotnet publish`]));
+        .pipe(shell([`dotnet publish -o wwwroot/api`]));
 }
 
 exports.startDatabase = startDatabase;

@@ -11,7 +11,6 @@ export class AppComponent {
   total = 0;
   title = 'BuyBox';
   addTokens(id: string): void  {
-    // jQuery('.toast').toast('show');
     switch (id) {
       case 'T010':
         this.total = this.total + 10;
