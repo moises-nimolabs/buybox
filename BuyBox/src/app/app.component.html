@@ -3,55 +3,60 @@
 <!--</div>-->
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Buy Box</h1>
+  <h1 class="display-5">Buy Box</h1>
   <p class="lead">Choose from amazing deals.</p>
 </div>
 
-<div class="container text-center">
-  <div class="mb-3 mx-3 align-content-md-stretch">
-    <h4 class="d-flex justify-content-center align-items-center mb-3">
-      <span class="text-muted ">Add Coins</span>
-    </h4>
-    <ul class="list-group list-group-horizontal justify-content-center">
-      <li class="list-group-item">
-        <small class="text-muted">Total (EUR) </small>
-        <strong>€ {{(total) | number: '1.2-2'}}</strong>
-      </li>
-      <li class="list-group-item">
-        <div>
-          <button type="button" class="btn btn-md btn-danger">Cancel</button>
-        </div>
-      </li>
-    </ul>
+<div class="container  container-sm">
+  <div class="row text-center">
+    <div class="mb-3 mx-auto">
+      <h5>Add Tokens</h5>
+    </div>
   </div>
-  <div class="mb-3 mx-auto">
-    <ul class="list-group list-group-horizontal justify-content-center">
-      <li class="list-group-item">
-        <div>
-          <button type="button" (click)="addTokens('T010')" class="btn btn-md btn-secondary">€ 0.10</button>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div>
-          <button type="button" (click)="addTokens('T020')" class="btn btn-md btn-primary">€ 0.20</button>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div>
-          <button type="button" (click)="addTokens('T050')" class="btn btn-md btn-success">€ 0.50</button>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div>
-          <button type="button" (click)="addTokens('T100')" class="btn btn-md btn-warning">€ 1.00</button>
-        </div>
-      </li>
-    </ul>
+  <div class="row text-center">
+    <div class="mb-3 mx-auto">
+      <ul class="list-group list-group-horizontal list-group-horizontal-sm">
+        <li class="list-group-item">
+          <div>
+            <img title="Add € 0.10" class="coin" (click)="addTokens('T010')" src="/assets/images/T010.png"/>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <img title="Add € 0.20" class="coin" (click)="addTokens('T020')" src="/assets/images/T020.png"/>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <img title="Add € 0.50" class="coin" (click)="addTokens('T050')" src="/assets/images/T050.png"/>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <img title="Add € 1.00" class="coin" (click)="addTokens('T100')" src="/assets/images/T100.png"/>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="mb-3 mx-auto">
+      <ul class="list-group list-group-horizontal list-group-horizontal-sm">
+        <li class="list-group-item justify-content-center">
+          <small class="text-muted">Total: </small>
+          <span class="badge badge-info">€ {{(total/100) | number: '1.2-2'}}</span>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <img title="Cancel and Withdraw Tokens" class="coin" src="/assets/images/T-CANCEL.svg"/>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <div class="container text-center">
-
   <div class="card-deck mb-3">
     <div class="card mb-3 shadow-sm">
       <div class="card-header">
@@ -62,7 +67,7 @@
         <ul class="list-unstyled mt-3 mb-3">
           <li>Delicious Black</li>
           <li>From London</li>
-          <li><img src="assets/images/tea.svg" width="120" height="120" /></li>
+          <li><img src="assets/images/tea.svg" width="120" height="120"/></li>
         </ul>
         <button type="button" (click)="buyProduct(1)" class="btn btn-lg btn-block btn-outline-primary">Buy Now</button>
       </div>
@@ -76,9 +81,9 @@
         <ul class="list-unstyled mt-3 mb-4">
           <li>Fresh grains</li>
           <li>Italian quality</li>
-          <li><img src="assets/images/expresso.svg" width="120" height="112" /></li>
+          <li><img src="assets/images/expresso.svg" width="120" height="112"/></li>
         </ul>
-        <button type="button" (click)="buyProduct(2)"  class="btn btn-lg btn-block btn-primary">Mega Deal</button>
+        <button type="button" (click)="buyProduct(2)" class="btn btn-lg btn-block btn-primary">Mega Deal</button>
       </div>
     </div>
     <div class="card mb-3 shadow-sm">
@@ -90,9 +95,9 @@
         <ul class="list-unstyled mt-3 mb-4">
           <li>Tropical Juice</li>
           <li>From South America</li>
-          <li><img src="assets/images/juice.svg" width="120" height="112" /></li>
+          <li><img src="assets/images/juice.svg" width="120" height="112"/></li>
         </ul>
-        <button type="button" (click)="buyProduct(3)"  class="btn btn-lg btn-block btn-warning">Almost gone</button>
+        <button type="button" (click)="buyProduct(3)" class="btn btn-lg btn-block btn-warning">Almost gone</button>
       </div>
     </div>
     <div class="card mb-3 shadow-sm">
@@ -104,15 +109,17 @@
         <ul class="list-unstyled mt-3 mb-4">
           <li>Delicious receipt</li>
           <li>Home made</li>
-          <li><img src="assets/images/soup.svg" width="120" height="112" /></li>
+          <li><img src="assets/images/soup.svg" width="120" height="112"/></li>
         </ul>
-        <button type="button" (click)="buyProduct(4)"  class="btn btn-lg btn-block btn-danger">Super Cheap!</button>
+        <button type="button" (click)="buyProduct(4)" class="btn btn-lg btn-block btn-danger">Super Cheap!</button>
       </div>
     </div>
 
   </div>
-  <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
-    <div class="toast" style="position: absolute; top: 0; right: 20; padding-bottom: 20px;" role="alert" aria-live="off" aria-atomic="true" data-delay="3000">
+  <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center"
+       style="min-height: 200px;">
+    <div class="toast" style="position: absolute; top: 0; right: 20; padding-bottom: 20px;" role="alert" aria-live="off"
+         aria-atomic="true" data-delay="3000">
       <div class="toast-header">
         <strong class="mr-auto">Bootstrap</strong>
       </div>

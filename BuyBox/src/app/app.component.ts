@@ -25,9 +25,9 @@ export class AppComponent {
         this.total += 100;
         break;
     }
-
-    this.total = this.total / 100;
   }
+
+
 
   buyProduct(id: number): void {
     jQuery('#confirm').modal('show');
