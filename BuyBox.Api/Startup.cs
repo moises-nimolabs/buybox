@@ -15,6 +15,18 @@ namespace BuyBox.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllHeaders",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
+            
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -44,6 +56,7 @@ namespace BuyBox.Api
         // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("AllowAllHeaders");
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseSwagger();
@@ -56,11 +69,11 @@ namespace BuyBox.Api
 
             app.UseSession();
 
-            app.UseHttpsRedirection();
+            
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
