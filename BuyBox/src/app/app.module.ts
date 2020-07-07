@@ -8,6 +8,7 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 import { TokenComponent } from './components/token/token.component';
 import { ProductComponent } from './components/product/product.component';
 import { CashbackComponent } from './components/cashback/cashback.component';
+import { PurchaseComponent } from './components/purchase/purchase.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { CashbackComponent } from './components/cashback/cashback.component';
     TokenComponent,
     ProductComponent,
     CashbackComponent,
+    PurchaseComponent,
   ],
   imports: [
     BrowserModule,

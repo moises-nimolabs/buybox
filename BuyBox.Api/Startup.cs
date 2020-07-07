@@ -28,7 +28,8 @@ namespace BuyBox.Api
                 options.AddPolicy("AllowAllHeaders",
                     builder =>
                     {
-                        builder.AllowAnyOrigin()
+                        builder.WithOrigins("http://localhost:4200")
+                            .AllowCredentials()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });

@@ -17,12 +17,13 @@ export class TokenComponent implements AfterViewInit {
     title: 'Cancel',
     message: 'Are you sure you want to cancel and get back your tokens?'
   };
+
   @ViewChild(ConfirmationComponent)
-  confComp: ConfirmationComponent;
+  confirmationComponent: ConfirmationComponent;
 
   cashBackModalId = 'token-cashback-modal';
   @ViewChild(CashbackComponent)
-  cbComp: CashbackComponent;
+  cashbackComponent: CashbackComponent;
 
 
   constructor(private service: TokenService) {
@@ -30,6 +31,7 @@ export class TokenComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const parent = this;
+    // retrieves the user token
     this.service.tokensGet({
       next(data): void {
         parent.total = data.total;
@@ -39,27 +41,19 @@ export class TokenComponent implements AfterViewInit {
 
   cancel(): void {
     const parent = this;
-    this.confComp.title = this.cancellationModal.title;
-    this.confComp.message = this.cancellationModal.message;
-    this.confComp.confirm = () => {
+    // defines the confirmation component parameters
+    this.confirmationComponent.title = this.cancellationModal.title;
+    this.confirmationComponent.message = this.cancellationModal.message;
+    this.confirmationComponent.confirm = () => {
       this.service.tokensDelete({
         next(data: any): void {
-          parent.cbComp.model = data;
-          const casBackModal = jQuery('#token-cashback-modal div:first-child');
-          casBackModal.on('hidden.bs.modal', f => {
-            jQuery('.modal-backdrop').remove();
-          });
-          casBackModal.modal('show');
+          parent.cashbackComponent.model = data;
+          parent.cashbackComponent.show();
           parent.getTokens();
         }
       });
     };
-
-    const modal = jQuery('#token-cancel-confirmation div:first-child');
-    // modal.on('hidden.bs.modal', f => {
-    //   jQuery('.modal-backdrop').remove();
-    // });
-    modal.modal('show');
+    this.confirmationComponent.show();
   }
 
   getTokens(): void {
@@ -74,11 +68,14 @@ export class TokenComponent implements AfterViewInit {
   addTokens(id: string): void {
     const parent = this;
     const tk = {id, value: 0};
-
     this.service.tokensPost(tk, {
       next(data: any): void {
         parent.getTokens();
       }
     });
+  }
+
+  notify(): void {
+    this.getTokens();
   }
 }

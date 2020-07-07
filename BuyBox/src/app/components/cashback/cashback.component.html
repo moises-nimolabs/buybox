@@ -9,8 +9,10 @@
           Total: € {{model.total/100}}
         </div>
         <ul class="list-group">
-          <li class="list-group-item align-content-center" *ngFor="let i of model.items">
-            <img src="/assets/images/{{i.id}}.png" class="coin" />
+          <li class="list-group-item align-content-center">
+            <div *ngFor="let i of model.items" class="float-left">
+              <img src="/assets/images/{{i.id}}.png" class="coin" />
+            </div>
           </li>
         </ul>
       </div>

@@ -54,12 +54,13 @@ function publish() {
 }
 
 exports.startDatabase = startDatabase;
-exports.resetDatabase = resetDatabase;
 exports.logsDatabase = logsDatabase;
-exports.disposeContainers = disposeContainers;
+exports.resetDatabase = resetDatabase;
 
 exports.startApi = startApi;
 exports.logsApi = logsApi;
+
+exports.disposeContainers = disposeContainers;
 
 exports.clean = clean;
 exports.build = build;

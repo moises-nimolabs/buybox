@@ -26,8 +26,12 @@ namespace BuyBox.Api.Controllers
         [HttpHead]
         public async Task Head()
         {
-            var session = await _sessionService.New();
-            Response.Cookies.Append("session", session.Id);
+            var sessionId = Request.Cookies["session"];
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                var session = await _sessionService.New();
+                Response.Cookies.Append("session", session.Id);    
+            }
         }
 
         /// <summary>

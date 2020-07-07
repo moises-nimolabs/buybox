@@ -1,0 +1,66 @@
+<div class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="model.canBuy">
+      <div class="modal-header">
+        <h5 class="modal-title">Thanks for your order</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col col-sm-6">
+            <div class="alert alert-info">
+              <p class="mb-3 align-content-center">
+                <img src="/assets/images/products/{{model.sellableItem.id}}.svg" width="120" height="112"
+                     style="margin: auto"/>
+              </p>
+            </div>
+          </div>
+          <div class="col col-sm-6">
+            <div class="alert alert-success">
+              {{model.message}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.exchangeTokens">
+          <h5>You got tokens back! Total:
+            <string>€ {{model.exchangeTokens.total / 100}}</string>
+          </h5>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="float-left" *ngFor="let i of model.exchangeTokens.items">
+                <img src="/assets/images/{{i.id}}.png" class="coin"/>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="confirm()" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+    <div class="modal-content" *ngIf="!model.canBuy">
+      <div class="modal-header">
+        <h5 class="modal-title">Could not place your order!</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col col-sm-6">
+            <div class="alert alert-info">
+              <p class="mb-3 align-content-center">
+                <img src="/assets/images/products/{{model.sellableItem.id}}.svg" width="120" height="112"
+                     style="margin: auto"/>
+              </p>
+            </div>
+          </div>
+          <div class="col col-sm-6">
+            <div class="alert alert-danger">
+              {{model.message}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="confirm()" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
