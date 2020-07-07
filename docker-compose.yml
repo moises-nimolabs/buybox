@@ -36,6 +36,6 @@ services:
         ports: 
             - "4200:80"
         volumes: 
-            - ./BuyBox/dist/BuyBox:/usr/share/nginx/html
+            - ./BuyBox/dist/BuyBox/:/usr/share/nginx/html
     
     

@@ -35,7 +35,12 @@ function logsApi() {
 
 function buildWeb() {
     return gulp.src(__filename)
-        .pipe(shell([`yarn`, `ng build`, ], { cwd: './BuyBox' }));
+        .pipe(shell([`yarn`, `ng build`], { cwd: './BuyBox' }));
+}
+
+function startWeb() {
+    return gulp.src(__filename)
+        .pipe(shell([ `docker-compose up -d web`]));
 }
 
 function disposeContainers() {
@@ -54,7 +59,6 @@ function build() {
         .pipe(shell([`dotnet build`]));
 }
 
-exports.dockerHostCfg = dockerHostCfg;
 
 exports.startDatabase = startDatabase;
 exports.logsDatabase = logsDatabase;
@@ -71,4 +75,4 @@ exports.disposeContainers = disposeContainers;
 exports.clean = clean;
 exports.build = build;
 
-exports.default = series(clean, build, startDatabase, build, buildApi, startApi, buildWeb)
+exports.default = series(startDatabase, resetDatabase, buildApi, startApi, buildWeb, startWeb);
