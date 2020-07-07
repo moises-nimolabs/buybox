@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {TokenCollection} from '../model/token-collection';
-import {CompletionObserver, Observable, PartialObserver} from 'rxjs';
+import {CompletionObserver} from 'rxjs';
 import {Token} from '../model/token';
 
 @Injectable({providedIn: 'root'})
 export class ApiService {
   constructor(private http: HttpClient) {
   }
+
   sessionHead(): void {
     this.http.request('HEAD', '/session')
 

@@ -15,7 +15,7 @@ DROP VIEW IF EXISTS SellableItem;
 DROP VIEW IF EXISTS _InOutLedger;
 DROP VIEW IF EXISTS ExchangeToken;
 
-DROP PROCEDURE IF EXISTS InserExchangeTokens;
+DROP PROCEDURE IF EXISTS InsertExchangeTokens;
 
 CREATE TABLE `Session` (
     `Id` VARCHAR(36) NOT NULL PRIMARY KEY,
@@ -55,43 +55,6 @@ CREATE TABLE `LedgerEntry` (
     `TokenId` VARCHAR(4) NOT NULL REFERENCES `Token` (`Id`)
 
 );
-
-INSERT INTO `Product` VALUES (1, 'Tea');
-INSERT INTO `Product` VALUES (2, 'Expresso');
-INSERT INTO `Product` VALUES (3, 'Juice');
-INSERT INTO `Product` VALUES (4, 'Chicken Soup');
-
-INSERT INTO `Token` VALUES ('T100', 100);
-INSERT INTO `Token` VALUES ('T050', 50);
-INSERT INTO `Token` VALUES ('T020', 20);
-INSERT INTO `Token` VALUES ('T010', 10);
-
-INSERT INTO `Price` VALUES (default, 1, 130);
-INSERT INTO `Price` VALUES (default, 2, 180);
-INSERT INTO `Price` VALUES (default, 3, 180);
-INSERT INTO `Price` VALUES (default, 4, 180);
-
-INSERT INTO `StockEntry` VALUES (default, 1, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 10);
-INSERT INTO `StockEntry` VALUES (default, 2, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 20);
-INSERT INTO `StockEntry` VALUES (default, 3, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 20);
-INSERT INTO `StockEntry` VALUES (default, 4, 'I', '3bc45266-3f49-9971-9c0d-d39b7fa867f3', 15);
-
-
-DELIMITER
-//
-CREATE PROCEDURE InserExchangeTokens(p1 INT)
-  BEGIN
-    SET @x = 0;
-    REPEAT SET @x = @x + 1;
-    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T010');
-    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T020');
-    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T050');
-    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T100');
-    UNTIL @x > p1 END REPEAT;
-  END
-//
-
-CALL InserExchangeTokens(100);
 
 CREATE VIEW _InOutStock AS
      select ProductId
@@ -143,4 +106,40 @@ CREATE VIEW ExchangeToken as
     join Token p on sub.TokenId = p.Id
     group by p.Id, p.Value;
 
+DELIMITER //
+CREATE  PROCEDURE  InsertExchangeTokens(p1 INT)
+  BEGIN
+    SET @x = 0;
+    REPEAT SET @x = @x + 1;
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T010');
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T020');
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T050');
+    INSERT INTO `LedgerEntry` VALUES(default, null, null, 'I', 'T100');
+    UNTIL @x > p1 END REPEAT;
+  END;
+//
+DELIMITER ;
+
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `Product` VALUES (1, 'Tea');
+INSERT INTO `Product` VALUES (2, 'Expresso');
+INSERT INTO `Product` VALUES (3, 'Juice');
+INSERT INTO `Product` VALUES (4, 'Chicken Soup');
+
+INSERT INTO `Token` VALUES ('T100', 100);
+INSERT INTO `Token` VALUES ('T050', 50);
+INSERT INTO `Token` VALUES ('T020', 20);
+INSERT INTO `Token` VALUES ('T010', 10);
+
+INSERT INTO `Price` VALUES (default, 1, 130);
+INSERT INTO `Price` VALUES (default, 2, 180);
+INSERT INTO `Price` VALUES (default, 3, 180);
+INSERT INTO `Price` VALUES (default, 4, 180);
+
+INSERT INTO `StockEntry` VALUES (default, 1, 'I', null, 10);
+INSERT INTO `StockEntry` VALUES (default, 2, 'I', null, 20);
+INSERT INTO `StockEntry` VALUES (default, 3, 'I', null, 20);
+INSERT INTO `StockEntry` VALUES (default, 4, 'I', null, 15);
+
+CALL InsertExchangeTokens(100);

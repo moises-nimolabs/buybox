@@ -1,5 +1,6 @@
 version: '3.1'
 services: 
+    #
     db:
         container_name: buybox-db
         image: mariadb:10.3
@@ -12,3 +13,17 @@ services:
             - MYSQL_DATABASE=buybox
             - MYSQL_USER=buybox
             - MYSQL_PASSWORD=password
+    
+    #C# .Net Core Api for the Application Services
+    api:
+        container_name: lifehack-api
+        working_dir: /api/
+        image: mcr.microsoft.com/dotnet/core/sdk:3.1
+        command: dotnet ./BuyBox.Api.dll
+        restart: always
+        environment: 
+            ASPNETCORE_ENVIRONMENT: Development
+        ports:
+            - "8000:80"
+        volumes: 
+            - ./BuyBox.Api/bin/Debug/netcoreapp3.1/publish/:/api/

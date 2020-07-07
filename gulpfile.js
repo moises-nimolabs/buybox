@@ -15,7 +15,17 @@ function resetDatabase() {
 
 function logsDatabase() {
     return gulp.src(__filename)
-    .pipe(shell([`docker-compose logs db`]));
+        .pipe(shell([`docker-compose logs db`]));
+}
+
+function startApi() {
+    return gulp.src(__filename)
+        .pipe(shell([ `docker-compose up -d api`]));
+}
+
+function logsApi() {
+    return gulp.src(__filename)
+        .pipe(shell([ `docker-compose logs api`]));
 }
 
 function disposeContainers() {
@@ -48,6 +58,8 @@ exports.resetDatabase = resetDatabase;
 exports.logsDatabase = logsDatabase;
 exports.disposeContainers = disposeContainers;
 
+exports.startApi = startApi;
+exports.logsApi = logsApi;
 
 exports.clean = clean;
 exports.build = build;

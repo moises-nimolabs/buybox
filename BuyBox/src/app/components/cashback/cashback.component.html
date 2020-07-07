@@ -1,0 +1,22 @@
+<div class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tokens retrieved</h5>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success">
+          Total: € {{model.total/100}}
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item align-content-center" *ngFor="let i of model.items">
+            <img src="/assets/images/{{i.id}}.png" class="coin" />
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>

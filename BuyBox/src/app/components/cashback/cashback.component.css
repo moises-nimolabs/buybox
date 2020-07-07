@@ -1,0 +1,22 @@
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+  .coin {
+    width: 75px;
+    height: 75px;
+    cursor: pointer;
+  }
+}
+
+
+@media (min-width: 300px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+  .coin {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+}
