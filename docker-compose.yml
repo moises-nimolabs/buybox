@@ -1,6 +1,6 @@
 version: '3.1'
 services: 
-    #
+    # Maria DB Database for the application
     db:
         container_name: buybox-db
         image: mariadb:10.3
@@ -14,9 +14,9 @@ services:
             - MYSQL_USER=buybox
             - MYSQL_PASSWORD=password
     
-    #C# .Net Core Api for the Application Services
+    # C# .Net Core Api for the Application Services
     api:
-        container_name: lifehack-api
+        container_name: buybox-api
         working_dir: /api/
         image: mcr.microsoft.com/dotnet/core/sdk:3.1
         command: dotnet ./BuyBox.Api.dll
@@ -27,4 +27,15 @@ services:
         ports:
             - "8000:8000"
         volumes: 
-            - ./wwwroot/api/:/api/
+            - ./BuyBox.Api/dist/BuyBox.Api/:/api/
+
+    # Angular-CLI Application
+    web:
+        image: nginx:alpine
+        container_name: buybox-web
+        ports: 
+            - "4200:80"
+        volumes: 
+            - ./BuyBox/dist/BuyBox:/usr/share/nginx/html
+    
+    

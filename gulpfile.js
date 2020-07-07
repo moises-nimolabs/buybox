@@ -18,6 +18,11 @@ function logsDatabase() {
         .pipe(shell([`docker-compose logs db`]));
 }
 
+function buildApi() {
+    return gulp.src(__filename)
+        .pipe(shell([`dotnet publish -o ./BuyBox.Api/dist/BuyBox.Api`]));
+}
+
 function startApi() {
     return gulp.src(__filename)
         .pipe(shell([ `docker-compose up -d api`]));
@@ -26,6 +31,11 @@ function startApi() {
 function logsApi() {
     return gulp.src(__filename)
         .pipe(shell([ `docker-compose logs api`]));
+}
+
+function buildWeb() {
+    return gulp.src(__filename)
+        .pipe(shell([`yarn`, `ng build`, ], { cwd: './BuyBox' }));
 }
 
 function disposeContainers() {
@@ -38,33 +48,27 @@ function clean() {
         .pipe(shell('dotnet clean'));
 }
 
+
 function build() {
     return gulp.src(__filename)
         .pipe(shell([`dotnet build`]));
 }
 
-function test() {
-    return gulp.src(__filename)
-        .pipe(shell([`dotnet test`]));
-}
-
-function publish() {
-    return gulp.src(__filename)
-        .pipe(shell([`dotnet publish -o wwwroot/api`]));
-}
+exports.dockerHostCfg = dockerHostCfg;
 
 exports.startDatabase = startDatabase;
 exports.logsDatabase = logsDatabase;
 exports.resetDatabase = resetDatabase;
 
+exports.buildApi = buildApi;
 exports.startApi = startApi;
 exports.logsApi = logsApi;
+
+exports.buildWeb = buildWeb;
 
 exports.disposeContainers = disposeContainers;
 
 exports.clean = clean;
 exports.build = build;
-exports.test = test;
-exports.publish = publish;
 
-exports.default = series(clean, build, test, publish)
+exports.default = series(clean, build, startDatabase, build, buildApi, startApi, buildWeb)
