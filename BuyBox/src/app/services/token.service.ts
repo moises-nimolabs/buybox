@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Token} from '../../model/token';
+import {Token} from '../model/token';
 import {NextObserver} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 

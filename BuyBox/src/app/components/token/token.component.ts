@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {TokenService} from './token.service';
+import {TokenService} from '../../services/token.service';
 import {ConfirmationComponent} from '../confirmation/confirmation.component';
 import {CashbackComponent} from '../cashback/cashback.component';
 
@@ -56,9 +56,9 @@ export class TokenComponent implements AfterViewInit {
     };
 
     const modal = jQuery('#token-cancel-confirmation div:first-child');
-    modal.on('hidden.bs.modal', f => {
-      jQuery('.modal-backdrop').remove();
-    });
+    // modal.on('hidden.bs.modal', f => {
+    //   jQuery('.modal-backdrop').remove();
+    // });
     modal.modal('show');
   }
 
