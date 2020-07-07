@@ -23,7 +23,8 @@ services:
         restart: always
         environment: 
             ASPNETCORE_ENVIRONMENT: Development
+            ASPNETCORE_URLS: http://*:8000
         ports:
-            - "8000:80"
+            - "8000:8000"
         volumes: 
             - ./BuyBox.Api/bin/Debug/netcoreapp3.1/publish/:/api/
