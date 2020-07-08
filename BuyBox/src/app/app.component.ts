@@ -27,5 +27,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.productComponent.notify = () => {
       parent.tokenComponent.notify();
     };
+    this.productComponent.updateComponents();
   }
 }
