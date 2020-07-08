@@ -14,4 +14,9 @@ export class SellableItemService {
     this.http.request('GET', `/sellableitem?id=${id}`, {responseType: 'json'})
       .subscribe(nx);
   }
+
+  sellableItemsGet(nx: NextObserver<any>) : void {
+    this.http.request('GET', '/sellableitems', {responseType: 'json'})
+      .subscribe(nx);
+  }
 }

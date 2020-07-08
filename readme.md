@@ -44,6 +44,8 @@ Customer should be able to buy a product:
 1. Docker for Windows, Docker Toolbox or Docker for Mac  
 2. .Net Core SDK 3.1  
 3. Angular-CLI installed globally  
+4. NodeJS 10+ installed locally  
+4.1. Builders uses `gulp`, so make sure you are able to use it
 
 Database and web servers are running on docker to avoid over-installation of uneeded components on your machine.  
 
@@ -52,12 +54,24 @@ Edit your hosts file to add the `buybox.local` host pointing to your docker ip a
 ```
 192.168.99.101 buybox.api
 ``` 
+`This is required to run the demo without problems using the containers.`
 
-### Build the Sol
-
+### Build the Solution
 * Using any shell tools, `cd` to the project root folder:  
-* Run `yarn`  
-* Cd to the folder `./BuyBox` 
-* Run `yarn`  
-* `cd` back to the root folder  
-* Run the commands in the following order
+* Run `yarn`    
+* Run `gulp`  
+`The default gulp task is enough to have everything running.`  
+`If you want a specific container up, for example buybox-db only for development:`  
+* `gulp startDatabase`
+
+
+### Description  
+#### BuyBox  
+Angular-CLI Frontend application  
+#### BuyBox.Api  
+.Net Core 3.1 Asp.Net WebApi application  
+#### BuyBox.Domain  
+.Net Core library containing the application domain  
+#### BuyBox.Entity  
+.Net Core library containing the application data access layer  
+#### BuyBox.

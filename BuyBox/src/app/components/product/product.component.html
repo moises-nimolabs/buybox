@@ -1,59 +1,20 @@
 <div class="container text-center">
   <div class="card-deck mb-3">
-    <div class="card mb-3 shadow-sm">
+    <div class="card mb-3 shadow-sm" *ngFor="let m of model">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Tea</h4>
+        <h4 class="my-0 font-weight-normal">{{m.name}}</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">€ 1.30-</h1>
+        <h1 class="card-title pricing-card-title">€ {{m.price/100}}-</h1>
         <ul class="list-unstyled mt-3 mb-3">
           <li>Delicious Black</li>
           <li>From London</li>
-          <li><img src="../../../assets/images/products/1.svg" width="120" height="120"/></li>
+          <li><img src="../../../assets/images/products/{{m.id}}.svg" width="120" height="120"/></li>
+          <li>Available: <span class="badge badge-pill">{{m.quantity}}</span>units</li>
         </ul>
-        <button type="button" (click)="buyProduct(1)" class="btn btn-lg btn-block btn-outline-primary">Buy Now</button>
-      </div>
-    </div>
-    <div class="card mb-3 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Expresso</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">€ 1.80-</h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>Fresh grains</li>
-          <li>Italian quality</li>
-          <li><img src="../../../assets/images/products/2.svg" width="120" height="112"/></li>
-        </ul>
-        <button type="button" (click)="buyProduct(2)" class="btn btn-lg btn-block btn-primary">Mega Deal</button>
-      </div>
-    </div>
-    <div class="card mb-3 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Juice</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">€ 1.80-</h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>Tropical Juice</li>
-          <li>From South America</li>
-          <li><img src="../../../assets/images/products/3.svg" width="120" height="112"/></li>
-        </ul>
-        <button type="button" (click)="buyProduct(3)" class="btn btn-lg btn-block btn-warning">Almost gone</button>
-      </div>
-    </div>
-    <div class="card mb-3 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Chicken Soup</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">€ 1.80-</h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>Delicious receipt</li>
-          <li>Home made</li>
-          <li><img src="../../../assets/images/products/4.svg" width="120" height="112"/></li>
-        </ul>
-        <button type="button" (click)="buyProduct(4)" class="btn btn-lg btn-block btn-danger">Super Cheap!</button>
+        <button type="button" (click)="buyProduct(m.id)" class="btn btn-lg btn-block btn-outline-primary">
+          Buy Now
+        </button>
       </div>
     </div>
   </div>

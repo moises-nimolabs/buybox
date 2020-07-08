@@ -3,6 +3,7 @@ import {ConfirmationComponent} from '../confirmation/confirmation.component';
 import {SellableItemService} from '../../services/sellable-item.service';
 import {PurchaseComponent} from '../purchase/purchase.component';
 import {SessionService} from '../../services/session.service';
+import {SellableItem} from '../../model/sellable-item';
 
 @Component({
   selector: 'app-product',
@@ -10,6 +11,7 @@ import {SessionService} from '../../services/session.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements AfterViewInit {
+  model: SellableItem[] = [];
   @ViewChild(ConfirmationComponent)
   confirmationComponent: ConfirmationComponent;
   @ViewChild(PurchaseComponent)
@@ -19,7 +21,7 @@ export class ProductComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
+    this.updateComponents();
   }
 
   buyProduct(id: number): void {
@@ -31,6 +33,7 @@ export class ProductComponent implements AfterViewInit {
         next(data: any): void {
           parent.purchaseComponent.model = data;
           parent.purchaseComponent.show();
+          parent.updateComponents();
           // cancels the current user session
           parent.sessionService.sessionDelete();
           // restablishes a session
@@ -39,6 +42,15 @@ export class ProductComponent implements AfterViewInit {
       });
     };
     this.confirmationComponent.show();
+  }
+
+  updateComponents(): void {
+    const parent = this;
+    this.service.sellableItemsGet({
+      next(data: any): void {
+        parent.model = data;
+      }
+    });
   }
 
   notify(): void {
