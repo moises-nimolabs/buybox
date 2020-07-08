@@ -86,5 +86,8 @@ gulp resetDatabase
 `It's required that the database container is running.`
 
 ### Documentation  
-The api documentation is available on the swagger:  `http://buybox.local:8000/swagger/index.html`
+The api documentation is available on the swagger:  `http://buybox.local:8000/swagger/index.html`  
+
+### The Frontend Operation is Self Explanatory  
+Just play around with tokens and products.  
 
