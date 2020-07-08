@@ -90,4 +90,4 @@ The api documentation is available on the swagger:  `http://buybox.local:8000/sw
 
 ### The Frontend Operation is Self Explanatory  
 Just play around with tokens and products.  
-
+To reach the frontend, just browse: `http://buybox.local`.
