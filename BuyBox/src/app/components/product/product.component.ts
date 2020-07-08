@@ -38,6 +38,7 @@ export class ProductComponent implements AfterViewInit {
           parent.sessionService.sessionDelete();
           // restablishes a session
           parent.sessionService.sessionHead();
+          parent.notify();
         }
       });
     };
