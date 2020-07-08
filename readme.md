@@ -50,10 +50,13 @@ Customer should be able to buy a product:
 Database and web servers are running on docker to avoid over-installation of uneeded components on your machine.  
 
 ### Apply Environment Specific Settings  
-Edit your hosts file to add the `buybox.local` host pointing to your docker ip address. Below one example using the IP `192.168.99.101`.
+Edit your hosts file to add the `buybox.local` host pointing to your docker ip address. Below one example using the IP `192.168.99.101`. 
+For local development, makesure you also have a `hosts` entry for the dabase, so the application can find the database:  
 ```
 192.168.99.101 buybox.api
-``` 
+192.168.99.101 buybox-db
+```
+ 
 `This is required to run the demo without problems using the containers.`
 
 ### Build the Solution
@@ -62,8 +65,9 @@ Edit your hosts file to add the `buybox.local` host pointing to your docker ip a
 * Run `gulp`  
 `The default gulp task is enough to have everything running.`  
 `If you want a specific container up, for example buybox-db only for development:`  
-* `gulp startDatabase`
-
+```
+gulp startDatabase
+```
 
 ### Description  
 #### BuyBox  
@@ -74,4 +78,13 @@ Angular-CLI Frontend application
 .Net Core library containing the application domain  
 #### BuyBox.Entity  
 .Net Core library containing the application data access layer  
-#### BuyBox.
+#### BuyBox.SQL  
+SQL Project containing the wipe/refresh database, in case you need a fresh database run the command:  
+```
+gulp resetDatabase
+```  
+`It's required that the database container is running.`
+
+### Documentation  
+The api documentation is available on the swagger:  `http://buybox.local:8000/swagger/index.html`
+
