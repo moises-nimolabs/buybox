@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {ConfirmationComponent} from '../confirmation/confirmation.component';
 import {SellableItemService} from '../../services/sellable-item.service';
 import {PurchaseComponent} from '../purchase/purchase.component';
+import {SessionService} from '../../services/session.service';
 
 @Component({
   selector: 'app-product',
@@ -14,7 +15,7 @@ export class ProductComponent implements AfterViewInit {
   @ViewChild(PurchaseComponent)
   purchaseComponent: PurchaseComponent;
 
-  constructor(private service: SellableItemService) {
+  constructor(private service: SellableItemService, private sessionService: SessionService) {
   }
 
   ngAfterViewInit(): void {
@@ -30,6 +31,10 @@ export class ProductComponent implements AfterViewInit {
         next(data: any): void {
           parent.purchaseComponent.model = data;
           parent.purchaseComponent.show();
+          // cancels the current user session
+          parent.sessionService.sessionDelete();
+          // restablishes a session
+          parent.sessionService.sessionHead();
         }
       });
     };

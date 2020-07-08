@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {TokenService} from '../../services/token.service';
 import {ConfirmationComponent} from '../confirmation/confirmation.component';
 import {CashbackComponent} from '../cashback/cashback.component';
+import {SessionService} from '../../services/session.service';
 
 declare var jQuery: any;
 
@@ -26,7 +27,7 @@ export class TokenComponent implements AfterViewInit {
   cashbackComponent: CashbackComponent;
 
 
-  constructor(private service: TokenService) {
+  constructor(private service: TokenService, private sessionService: SessionService) {
   }
 
   ngAfterViewInit(): void {
@@ -49,7 +50,13 @@ export class TokenComponent implements AfterViewInit {
         next(data: any): void {
           parent.cashbackComponent.model = data;
           parent.cashbackComponent.show();
-          parent.getTokens();
+
+
+          parent.notify();
+          // cancels the current user session
+          parent.sessionService.sessionDelete();
+          // restablishes a session
+          parent.sessionService.sessionHead();
         }
       });
     };

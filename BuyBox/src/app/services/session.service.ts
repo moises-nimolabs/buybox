@@ -13,4 +13,11 @@ export class SessionService {
         return null;
       });
   }
+
+  sessionDelete(): void {
+    this.http.request('DELETE', '/session')
+      .subscribe(o => {
+        return null;
+      });
+  }
 }
