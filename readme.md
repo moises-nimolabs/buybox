@@ -48,13 +48,10 @@ Customer should be able to buy a product:
 Database and web servers are running on docker to avoid over-installation of uneeded components on your machine.  
 
 ### Apply Environment Specific Settings  
-Make sure you have `Docker Toolbox` or `Docker for Windows` installed. If you use Windows, make sure you use `Linux Containers`.  
-Update the application settings to match the Docker IP address:
-1 `./BuyBox/src/environments/environment.ts`  
-   Change the setting: `apiEndpoint`  
-2 `./BuyBox.Api/appsettings.json`  
-   Change the setting: `ConnectionStrings:BuyBoxDbContext`  
-By default they are pointing to `Docker Toolbox` virtual machine on the address `192.168.99.101`.  
+Edit your hosts file to add the `buybox.local` host pointing to your docker ip address. Below one example using the IP `192.168.99.101`.
+```
+192.168.99.101 buybox.api
+``` 
 
 ### Build the Sol
 

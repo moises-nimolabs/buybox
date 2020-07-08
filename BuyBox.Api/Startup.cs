@@ -29,7 +29,7 @@ namespace BuyBox.Api
                 options.AddPolicy("AllowAllHeaders",
                     builder =>
                     {
-                        builder.WithOrigins($"{domain}:4200")
+                        builder.WithOrigins($"{domain}")
                             .AllowCredentials()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
@@ -67,10 +67,8 @@ namespace BuyBox.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("AllowAllHeaders");
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
+            app.UseDeveloperExceptionPage();
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "BuyBox Api");

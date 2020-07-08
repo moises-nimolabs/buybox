@@ -5,32 +5,37 @@ const { series } = require('gulp');
 
 function startDatabase() {
     return gulp.src(__filename)
-        .pipe(shell([`docker-compose up -d db`]));
+        .pipe(shell([`docker-compose up -d buybox-db`]));
 }
 
 function resetDatabase() {
     return gulp.src(__filename)
-        .pipe(shell([`docker-compose exec -d db bash -c "mysql -u root </sql/init-db.sql"`]));
+        .pipe(shell([`docker-compose exec -d buybox-db bash -c "mysql -u root </sql/init-db.sql"`]));
 }
 
 function logsDatabase() {
     return gulp.src(__filename)
-        .pipe(shell([`docker-compose logs db`]));
+        .pipe(shell([`docker-compose logs buybox-db`]));
 }
 
 function buildApi() {
+    return gulp.src(__filename)
+        .pipe(shell([`dotnet build`]));
+}
+
+function publishApi() {
     return gulp.src(__filename)
         .pipe(shell([`dotnet publish -o ./BuyBox.Api/dist/BuyBox.Api`]));
 }
 
 function startApi() {
     return gulp.src(__filename)
-        .pipe(shell([ `docker-compose up -d api`]));
+        .pipe(shell([ `docker-compose up -d buybox-api`]));
 }
 
 function logsApi() {
     return gulp.src(__filename)
-        .pipe(shell([ `docker-compose logs api`]));
+        .pipe(shell([ `docker-compose logs buybox-api`]));
 }
 
 function buildWeb() {
@@ -40,7 +45,7 @@ function buildWeb() {
 
 function startWeb() {
     return gulp.src(__filename)
-        .pipe(shell([ `docker-compose up -d web`]));
+        .pipe(shell([ `docker-compose up -d buybox-web`]));
 }
 
 function disposeContainers() {
@@ -54,10 +59,7 @@ function clean() {
 }
 
 
-function build() {
-    return gulp.src(__filename)
-        .pipe(shell([`dotnet build`]));
-}
+
 
 
 exports.startDatabase = startDatabase;
@@ -65,14 +67,14 @@ exports.logsDatabase = logsDatabase;
 exports.resetDatabase = resetDatabase;
 
 exports.buildApi = buildApi;
+exports.publishApi = publishApi;
 exports.startApi = startApi;
 exports.logsApi = logsApi;
 
 exports.buildWeb = buildWeb;
-
+exports.startWeb = startWeb;
 exports.disposeContainers = disposeContainers;
 
 exports.clean = clean;
-exports.build = build;
 
-exports.default = series(startDatabase, buildApi, startApi, buildWeb, startWeb, resetDatabase);
+exports.default = series(startDatabase, buildApi, publishApi, startApi, buildWeb, startWeb, resetDatabase);
