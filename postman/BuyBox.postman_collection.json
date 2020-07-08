@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "326da09e-3330-4315-95db-53115d39ea2a",
+		"name": "BuyBox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Session/Head",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e290d84c-d5a1-4403-9950-b42b09b426ed",
+						"exec": [
+							"var session = postman.getResponseHeader(\"Set-Cookie\")\r",
+							"pm.test(`Session acquired: ${session}`, function () {\r",
+							"    pm.expect(session).to.not.eq(undefined);\r",
+							"    pm.globals.set(\"session\", session.toString());\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/session",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Session/Patch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46608bcb-a869-4df7-a521-0c28e8af6264",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "session",
+						"value": "{{session}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"{{session}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/session",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SellableItems/Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/sellableitems",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sellableitems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token/Post$1.00EUR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "\n",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"T100\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token/Post$0.50EUR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"T050\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"token"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token/Post$0.20EUR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"T020\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token/Post$0.10EUR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"T010\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tokens/Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/tokens",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SellableItem/Get$Tea",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{host}}/sellableitem?id=1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sellableitem"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SellableItem/Get$Juice",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/sellableitem?id=3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sellableitem"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tokens/Delete",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "25a6dca4-97d2-4318-8698-cd94db44b63c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Code\": \"D100\",\r\n    \"Session\": {\r\n        \"Id\": \"{{session}}\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/tokens",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"tokens"
+					],
+					"query": [
+						{
+							"key": "session",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
