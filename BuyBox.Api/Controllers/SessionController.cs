@@ -40,10 +40,11 @@ namespace BuyBox.Api.Controllers
         /// <param name="model">The <see cref="SessionModel" /> object used in the session</param>
         /// <returns></returns>
         [HttpPatch]
-        public async Task<SessionModel> Post(SessionModel model)
+        public async Task<SessionModel> Patch()
         {
+            var sessionId = Request.Cookies["session"];
             Response.Cookies.Delete("session");
-            return await _sessionService.Finish(model.Id);
+            return await _sessionService.Finish(sessionId);
         }
     }
 }

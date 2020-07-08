@@ -75,4 +75,4 @@ exports.disposeContainers = disposeContainers;
 exports.clean = clean;
 exports.build = build;
 
-exports.default = series(startDatabase, resetDatabase, buildApi, startApi, buildWeb, startWeb);
+exports.default = series(startDatabase, buildApi, startApi, buildWeb, startWeb, resetDatabase);

@@ -1,4 +1,7 @@
 version: '3.1'
+networks: 
+    nginx-proxy:
+
 services: 
     # Maria DB Database for the application
     db:
@@ -17,6 +20,9 @@ services:
     # C# .Net Core Api for the Application Services
     api:
         container_name: buybox-api
+        networks: 
+            - nginx-proxy
+        hostname: buybox.local
         working_dir: /api/
         image: mcr.microsoft.com/dotnet/core/sdk:3.1
         command: dotnet ./BuyBox.Api.dll

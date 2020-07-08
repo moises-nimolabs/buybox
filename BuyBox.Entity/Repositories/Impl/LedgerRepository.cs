@@ -77,7 +77,7 @@ namespace BuyBox.Data.Repositories.Impl
             var inserted = await _dbContext.LedgerEntries
                 .Include(i => i.Session)
                 .Include(i => i.Token)
-                .Where(p => p.Session.Id == sessionId && p.Operation == "I")
+                .Where(p => sessionId != null && p.Session.Id == sessionId && p.Operation == "I")
                 .Select(s => s)
                 .ToListAsync();
 
@@ -85,7 +85,7 @@ namespace BuyBox.Data.Repositories.Impl
                 .Include(i => i.Session)
                 .Include(p => p.Token)
                 .Include(i => i.Related)
-                .Where(p => p.Session.Id == sessionId && p.Operation == "O")
+                .Where(p => sessionId != null && p.Session.Id == sessionId && p.Operation == "O")
                 .Select(s => s.Related)
                 .ToListAsync();
 

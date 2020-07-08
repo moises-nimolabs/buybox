@@ -23,12 +23,13 @@ namespace BuyBox.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var domain = Configuration.GetSection("Domain").Value;
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllHeaders",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder.WithOrigins($"{domain}:4200")
                             .AllowCredentials()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
