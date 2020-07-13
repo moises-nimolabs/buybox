@@ -59,6 +59,12 @@ For local development, makesure you also have a `hosts` entry for the dabase, so
  
 `This is required to run the demo without problems using the containers.`
 
+If you are not sure about your Docker installation IP address, issue the command in the shell:  
+```
+docker info
+```
+
+
 ### Build the Solution
 * Using any shell tools, `cd` to the project root folder:  
 * Run `yarn`    
